@@ -1,0 +1,203 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}RxLabel Admin – License Requests{% endblock %}
+
+{% block admin_content %}
+
+{% set total = requests | length %}
+
+{# ── FILTER BAR ── #}
+<div class="filter-bar">
+  <a href="{{ url_for('admin.requests_list') }}"
+     class="filter-btn {% if not status_filter %}active{% endif %}">All</a>
+  <a href="{{ url_for('admin.requests_list') }}?status=pending"
+     class="filter-btn {% if status_filter == 'pending' %}active{% endif %}">&#9203; Pending</a>
+  <a href="{{ url_for('admin.requests_list') }}?status=approved"
+     class="filter-btn {% if status_filter == 'approved' %}active{% endif %}">&#10003; Approved</a>
+  <a href="{{ url_for('admin.requests_list') }}?status=rejected"
+     class="filter-btn {% if status_filter == 'rejected' %}active{% endif %}">&#10005; Rejected</a>
+</div>
+
+<div class="table-wrap">
+  <div class="table-header">
+    <h2>License Requests {% if status_filter %}&mdash; {{ status_filter | capitalize }}{% endif %}</h2>
+    <span>{{ total }} record{{ 's' if total != 1 }}</span>
+  </div>
+
+  {% if requests %}
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Facility</th>
+          <th>Contact</th>
+          <th>Email</th>
+          <th>License Type</th>
+          <th>Submitted</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in requests %}
+        <tr>
+          <td class="mono">#{{ r.id }}</td>
+          <td>
+            <div style="font-weight:600;">{{ r.facility_name }}</div>
+            <div style="font-size:.78rem;color:var(--muted);">{{ r.facility_address }}</div>
+          </td>
+          <td style="white-space:nowrap;">{{ r.facility_contact }}</td>
+          <td>
+            <a href="mailto:{{ r.facility_email }}"
+               style="color:var(--blue);text-decoration:none;">{{ r.facility_email }}</a>
+          </td>
+          <td><span class="license-chip">{{ r.license_type }}</span></td>
+          <td class="mono" style="white-space:nowrap;">{{ r.submitted_at[:16] }}</td>
+          <td>
+            <select class="action-select"
+                    onchange="updateStatus({{ r.id }}, this.value, this)">
+              <option value="pending"  {% if r.status=='pending'  %}selected{% endif %}>Pending</option>
+              <option value="approved" {% if r.status=='approved' %}selected{% endif %}>Approved</option>
+              <option value="rejected" {% if r.status=='rejected' %}selected{% endif %}>Rejected</option>
+            </select>
+          </td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-invoice"
+                onclick="openInvoiceModal({{ r.id }}, '{{ r.facility_name | e }}', '{{ r.facility_email | e }}', '{{ r.license_type | e }}')">
+                &#128176; Invoice
+              </button>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty">
+    <div class="icon">&#128203;</div>
+    <div>No {{ status_filter or '' }} requests found.</div>
+  </div>
+  {% endif %}
+</div>
+
+{# ── INVOICE MODAL ── #}
+<div class="inv-modal-overlay" id="invOverlay">
+  <div class="inv-modal">
+    <div class="inv-modal-header">
+      <div>
+        <h2>Send Invoice</h2>
+        <p id="invModalSub">—</p>
+      </div>
+      <button class="inv-modal-close" onclick="closeInvoiceModal()">&#10005;</button>
+    </div>
+    <div class="inv-modal-body">
+      <input type="hidden" id="invReqId"/>
+      <div class="inv-row">
+        <div class="inv-group">
+          <label>Invoice Number *</label>
+          <input type="text" id="invNumber" placeholder="e.g. INV-001"/>
+        </div>
+        <div class="inv-group">
+          <label>Currency *</label>
+          <select id="invCurrency">
+            <option value="GHS">GHS</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-group">
+          <label>Amount *</label>
+          <input type="text" id="invAmount" placeholder="e.g. 2500"/>
+        </div>
+        <div class="inv-group">
+          <label>Due Date *</label>
+          <input type="date" id="invDueDate"/>
+        </div>
+      </div>
+      <div class="inv-group">
+        <label>Description *</label>
+        <input type="text" id="invDescription" placeholder="e.g. Preorder – Starter Package"/>
+      </div>
+      <div class="inv-group">
+        <label>Notes (optional)</label>
+        <textarea id="invNotes" placeholder="Any additional payment instructions…"></textarea>
+      </div>
+      <button class="inv-submit" id="invSubmitBtn" onclick="submitInvoice()">
+        &#9993; Send Invoice
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+let _invReqId = null;
+
+function openInvoiceModal(id, name, email, licType) {
+  _invReqId = id;
+  document.getElementById('invReqId').value   = id;
+  document.getElementById('invModalSub').textContent = name + ' · ' + email;
+  document.getElementById('invDescription').value    = licType;
+
+  // auto invoice number
+  const today = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  document.getElementById('invNumber').value =
+    'INV-' + today.getFullYear() + pad(today.getMonth()+1) + pad(today.getDate()) + '-' + id;
+
+  // default due date 7 days out
+  const due = new Date(today.getTime() + 7*24*60*60*1000);
+  document.getElementById('invDueDate').value =
+    due.getFullYear() + '-' + pad(due.getMonth()+1) + '-' + pad(due.getDate());
+
+  document.getElementById('invOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeInvoiceModal() {
+  document.getElementById('invOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('invOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeInvoiceModal();
+});
+
+async function submitInvoice() {
+  const btn = document.getElementById('invSubmitBtn');
+  const payload = {
+    number:      document.getElementById('invNumber').value.trim(),
+    amount:      document.getElementById('invAmount').value.trim(),
+    currency:    document.getElementById('invCurrency').value,
+    due_date:    document.getElementById('invDueDate').value,
+    description: document.getElementById('invDescription').value.trim(),
+    notes:       document.getElementById('invNotes').value.trim(),
+  };
+  if (!payload.number || !payload.amount || !payload.due_date || !payload.description) {
+    showAdminToast('Please fill in all required fields.', true); return;
+  }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    const res  = await fetch(`/admin/requests/${_invReqId}/invoice`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (data.success) {
+      closeInvoiceModal();
+      showAdminToast('✓ ' + data.message);
+    } else {
+      showAdminToast(data.message, true);
+    }
+  } catch(e) {
+    showAdminToast('Network error.', true);
+  } finally {
+    btn.disabled = false; btn.textContent = '✉ Send Invoice';
+  }
+}
+</script>
+
+{% endblock %}

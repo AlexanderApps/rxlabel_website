@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}"/>
+{% endblock %}
+
+{% block body_class %}admin-body{% endblock %}
+
+{% block content %}
+<header class="admin-header">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <img src="{{ url_for('static', filename='img/icon.svg') }}" style="width:28px;height:28px;" alt=""/>
+    <div class="h-logo"><span class="rx">Rx</span>Label</div>
+    <div class="h-badge">Admin</div>
+  </div>
+  <a href="{{ url_for('admin.logout') }}" class="logout-btn">&#8594; Log out</a>
+</header>
+
+<div class="admin-main">
+
+  {# ── TOP NAV ── #}
+  <nav class="admin-nav">
+    <a href="{{ url_for('admin.dashboard') }}"
+       class="admin-nav-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+      <span class="nav-icon">&#9632;</span> Dashboard
+    </a>
+    <a href="{{ url_for('admin.requests_list') }}"
+       class="admin-nav-link {% if request.endpoint == 'admin.requests_list' %}active{% endif %}">
+      <span class="nav-icon">&#128203;</span> License Requests
+    </a>
+    <a href="{{ url_for('main.index') }}" class="admin-nav-link" target="_blank">
+      <span class="nav-icon">&#127760;</span> View Site
+    </a>
+  </nav>
+
+  {% block admin_content %}{% endblock %}
+</div>
+
+<div class="admin-toast" id="adminToast"></div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

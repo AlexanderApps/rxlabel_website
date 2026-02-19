@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block title %}RxLabel – Medication Labelling System{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/hero.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sections.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+{% include "partials/nav.html" %}
+
+<!-- ── HERO ───────────────────────────────────────────── -->
+<section class="hero" id="home">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-left">
+    <div class="hero-badge">Preorder Now Open · Save GHS 300</div>
+    <h1>Labelling medication<br />the <span class="rx-text">5R</span> way,<br />every time.</h1>
+    <p class="hero-sub">RxLabel brings accuracy, efficiency, and patient safety to every prescription label — built
+      around the 5 Rights of Medication Safety.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal('Preorder – Starter Package')">Preorder – GHS 2,500</button>
+      <a href="#features" class="btn-outline">See Features</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="num">5R</div>
+        <div class="lbl">Safety Standard</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">300<span style="font-size:.9rem">dpi</span></div>
+        <div class="lbl">Print Quality</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">&infin;</div>
+        <div class="lbl">Machines / License</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="carousel-wrap">
+      <div class="carousel-frame">
+        <div class="carousel-bar">
+          <div class="dot r"></div>
+          <div class="dot y"></div>
+          <div class="dot g"></div>
+          <div class="carousel-title-bar">RxLabel &middot; Electron</div>
+        </div>
+        <div class="carousel-slides" id="carousel">
+          <div class="slide active" data-label="Labels">
+            <img src="{{ url_for('static', filename='img/Screenshot_2026-02-18_085327.png') }}" alt="Labels Grid" />
+          </div>
+          <div class="slide" data-label="Queue">
+            <img src="{{ url_for('static', filename='img/Screenshot_2026-02-18_085443.png') }}" alt="Queue" />
+          </div>
+          <div class="slide" data-label="Clients">
+            <img src="{{ url_for('static', filename='img/Screenshot_2026-02-18_085747.png') }}" alt="Clients" />
+          </div>
+          <div class="slide" data-label="Client Detail">
+            <img src="{{ url_for('static', filename='img/Screenshot_2026-02-18_090119.png') }}" alt="Client Detail" />
+          </div>
+          <div class="slide" data-label="Dark Mode">
+            <div class="slide-placeholder">
+              <div style="font-size:2rem">&#127769;</div>
+              <div>Dark theme &mdash; coming soon</div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-arrows">
+          <button class="carousel-arrow" id="prev">&#8592;</button>
+          <button class="carousel-arrow" id="next">&#8594;</button>
+        </div>
+        <div class="slide-chips" id="slideChips"></div>
+      </div>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ───────────────────────────────────────── -->
+<section class="features" id="features">
+  <div class="features-inner">
+    <div class="section-eyebrow">Why RxLabel</div>
+    <div class="section-heading">Everything a pharmacy needs<br />to label with confidence.</div>
+    <p class="section-sub">From a single-counter clinic to a multi-facility hospital network, RxLabel handles it all.
+    </p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#127991;</div>
+        <h3>Smart Label Generation</h3>
+        <p>Auto-generates clear, accurate medication instructions from dispensing data — reducing transcription errors
+          at source.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#9203;</div>
+        <h3>Print Queue Management</h3>
+        <p>Queue multiple labels and print them individually or all at once. Review before you print, clear, or reprint
+          with one click.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128101;</div>
+        <h3>Client Records</h3>
+        <p>Store patient details and full labelling history. Search instantly by name, ID, contact, or address.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#9888;</div>
+        <h3>Safety Warnings</h3>
+        <p>Automatic drug-specific warnings on every label — "Avoid alcohol", "Keep out of reach of children", and more.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128421;</div>
+        <h3>Multi-Machine License</h3>
+        <p>One license covers your whole facility — install on every computer at no extra cost. No per-seat fees ever.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#127973;</div>
+        <h3>Enterprise Ready</h3>
+        <p>Custom multi-facility licensing for hospital networks and pharmacy chains. Centralized control, local
+          operation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5R ─────────────────────────────────────────────── -->
+<div class="five-r">
+  <h2>Built on the 5 Rights of Medication Safety</h2>
+  <p>Every label generated by RxLabel satisfies all five rights — protecting patients at every step.</p>
+  <div class="five-r-pills">
+    <div class="five-r-pill">
+      <div class="r-num">R1</div>
+      <div class="r-text">Right Patient</div>
+    </div>
+    <div class="five-r-pill">
+      <div class="r-num">R2</div>
+      <div class="r-text">Right Drug</div>
+    </div>
+    <div class="five-r-pill">
+      <div class="r-num">R3</div>
+      <div class="r-text">Right Dose</div>
+    </div>
+    <div class="five-r-pill">
+      <div class="r-num">R4</div>
+      <div class="r-text">Right Route</div>
+    </div>
+    <div class="five-r-pill">
+      <div class="r-num">R5</div>
+      <div class="r-text">Right Time</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PRODUCTS ───────────────────────────────────────── -->
+<section class="products" id="products">
+  <div class="products-inner">
+    <div style="margin-bottom:64px;">
+      <div class="section-eyebrow">Hardware</div>
+      <div class="section-heading">Precision hardware,<br />purpose-built for pharmacy.</div>
+    </div>
+    <div class="product-block">
+      <div class="product-img-wrap dark">
+        <img src="{{ url_for('static', filename='img/Screenshot_20260218_080455_Alibabacom.jpg') }}"
+          alt="DP27S Printer" />
+      </div>
+      <div class="product-info">
+        <div class="section-eyebrow">Label Printer</div>
+        <h2>DP27S Thermal Label Printer</h2>
+        <p class="tagline">Compact, wireless, built for high-volume pharmacy dispensing. Crystal-clear 300dpi prints
+          every time — no ink, no fuss.</p>
+        <ul class="spec-list">
+          <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Print Resolution:</span> 300
+              DPI</span></li>
+          <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Connectivity:</span> Bluetooth +
+              USB</span></li>
+          <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Display:</span> Built-in OLED status
+              screen</span></li>
+          <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Technology:</span> Direct thermal —
+              no ink cartridges</span></li>
+          <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Compatible:</span> Plug-and-play
+              with RxLabel</span></li>
+        </ul>
+        <div class="price-tag-inline"><span class="amt">GHS 1,600</span><span class="unit">extra unit &middot; included
+            in Starter Pack</span></div>
+      </div>
+    </div>
+    <div class="product-block reverse">
+      <div class="product-img-wrap">
+        <img src="{{ url_for('static', filename='img/1771405484006.png') }}" alt="Label Rolls" />
+      </div>
+      <div class="product-info">
+        <div class="section-eyebrow">Label Paper</div>
+        <h2>Thermal Label Rolls</h2>
+        <p class="tagline">Waterproof, scratch-resistant thermal labels that stay readable from dispensing counter to
+          medicine cabinet.</p>
+        <ul class="spec-list">
+          <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Label Size:</span> 50mm &times;
+              60mm</span></li>
+          <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Labels per Roll:</span> 120
+              labels</span></li>
+          <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Material:</span> Waterproof direct
+              thermal paper</span></li>
+          <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Durability:</span> Scratch-resistant
+              coating</span></li>
+          <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Min. Order:</span> 5-roll pack (600
+              labels)</span></li>
+        </ul>
+        <div class="price-tag-inline"><span class="amt">GHS 400</span><span class="unit">per 5-roll pack &middot; GHS
+            80/roll</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ────────────────────────────────────────── -->
+<section class="pricing-teaser" id="pricing">
+  <div class="section-eyebrow">Pricing</div>
+  <div class="section-heading" style="margin:0 auto 12px;">Simple, transparent pricing.</div>
+  <p class="section-sub" style="margin:0 auto;">One package gets you started. Scale as you grow.</p>
+  <div class="pricing-cards">
+    <div class="p-card">
+      <div class="p-card-label">Preorder</div>
+      <div class="p-card-name">Starter Package</div>
+      <div class="p-card-price">GHS 2,500</div>
+      <div class="p-card-unit">Save GHS 300 vs launch price</div>
+      <div class="p-card-divider"></div>
+      <div class="p-card-items">&#10003; RxLabel Application<br />&#10003; Label Printer (DP27S)<br />&#10003; 5 &times;
+        120-label rolls<br />&#10003; Unlimited machines</div>
+      <button class="p-card-cta" onclick="openModal('Preorder – Starter Package')">Request License</button>
+    </div>
+    <div class="p-card featured">
+      <div class="p-card-label">Launch Price</div>
+      <div class="p-card-name">Starter Package</div>
+      <div class="p-card-price">GHS 2,800</div>
+      <div class="p-card-unit">Standard pricing at launch</div>
+      <div class="p-card-divider"></div>
+      <div class="p-card-items">&#10003; RxLabel Application<br />&#10003; Label Printer (DP27S)<br />&#10003; 5 &times;
+        120-label rolls<br />&#10003; Unlimited machines</div>
+      <button class="p-card-cta" onclick="openModal('Standard – Starter Package')">Request License</button>
+    </div>
+    <div class="p-card">
+      <div class="p-card-label">Enterprise</div>
+      <div class="p-card-name">Multi-Facility</div>
+      <div class="p-card-price" style="font-size:1.5rem;">Custom</div>
+      <div class="p-card-unit">Tailored to your organization</div>
+      <div class="p-card-divider"></div>
+      <div class="p-card-items">&#10003; Multiple facility licenses<br />&#10003; Volume label pricing<br />&#10003;
+        Custom SLA<br />&#10003; Dedicated support</div>
+      <button class="p-card-cta" onclick="openModal('Enterprise – Multi-Facility')">Request License</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ────────────────────────────────────────── -->
+<div class="contact-strip" id="contact">
+  <h2>Get in touch</h2>
+  <p>Have questions about RxLabel or want to place a preorder? Reach us directly.</p>
+  <div class="contact-links">
+    <a href="mailto:rxlabelapp@gmail.com" class="contact-link email">&#9993; rxlabelapp@gmail.com</a>
+    <a href="tel:+233555276832" class="contact-link phone">&#128222; +233 555 276 832</a>
+    <a href="https://wa.me/233555276832" class="contact-link whatsapp" target="_blank" rel="noopener">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+        style="vertical-align:middle;margin-right:6px">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+      </svg>
+      WhatsApp Us
+    </a>
+  </div>
+</div>
+
+{% include "partials/footer.html" %}
+{% include "partials/license_modal.html" %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/carousel.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modal.js') }}"></script>
+{% endblock %}

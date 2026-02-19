@@ -1,0 +1,125 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}RxLabel Admin – Dashboard{% endblock %}
+
+{% block admin_content %}
+
+{% if not mail_configured %}
+<div class="mail-alert">
+  <span class="alert-icon">⚠️</span>
+  <div>
+    <strong>Email not configured.</strong>
+    Set <code>MAIL_USERNAME</code> and <code>MAIL_PASSWORD</code> environment variables to enable
+    email notifications and invoice sending.
+    See <code>README.md</code> for setup instructions.
+  </div>
+</div>
+{% endif %}
+
+{# ── STAT CARDS ── #}
+<div class="stats">
+  <div class="stat-card">
+    <div class="val">{{ total }}</div>
+    <div class="lbl">Total Requests</div>
+  </div>
+  <div class="stat-card pending">
+    <div class="val">{{ pending }}</div>
+    <div class="lbl">Pending</div>
+  </div>
+  <div class="stat-card approved">
+    <div class="val">{{ approved }}</div>
+    <div class="lbl">Approved</div>
+  </div>
+  <div class="stat-card rejected">
+    <div class="val">{{ rejected }}</div>
+    <div class="lbl">Rejected</div>
+  </div>
+</div>
+
+{# ── CONTENT GRID ── #}
+<div class="dash-grid">
+
+  {# Recent Requests #}
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <h3>Recent Requests</h3>
+      <a href="{{ url_for('admin.requests_list') }}">View all &rarr;</a>
+    </div>
+    <div class="dash-card-body">
+      {% if recent %}
+        {% for r in recent %}
+        <div class="recent-row">
+          <div>
+            <div class="rr-name">{{ r.facility_name }}</div>
+            <div class="rr-type">{{ r.license_type }}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+            <span class="badge {{ r.status }}">{{ r.status }}</span>
+            <div class="rr-time">{{ r.submitted_at[:10] }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p style="color:var(--muted);font-size:.88rem;text-align:center;padding:24px 0;">
+          No requests yet.
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+  {# By License Type #}
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <h3>Requests by License Type</h3>
+    </div>
+    <div class="dash-card-body">
+      {% if by_type %}
+        {% for row in by_type %}
+        <div class="type-bar-row">
+          <div class="type-bar-label">
+            <span>{{ row.license_type }}</span>
+            <span>{{ row.cnt }}</span>
+          </div>
+          <div class="type-bar-track">
+            <div class="type-bar-fill"
+                 style="width:{{ ((row.cnt / total) * 100) | round | int }}%"></div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p style="color:var(--muted);font-size:.88rem;text-align:center;padding:24px 0;">
+          No data yet.
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+{# ── QUICK ACTIONS ── #}
+<div class="dash-card" style="margin-top:0;">
+  <div class="dash-card-header">
+    <h3>Quick Actions</h3>
+  </div>
+  <div class="dash-card-body" style="display:flex;gap:12px;flex-wrap:wrap;">
+    <a href="{{ url_for('admin.requests_list') }}?status=pending"
+       style="display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;
+              background:#fef3c7;color:#92400e;font-weight:600;font-size:.85rem;text-decoration:none;
+              border:1px solid #fde68a;">
+      &#9203; View Pending ({{ pending }})
+    </a>
+    <a href="{{ url_for('admin.requests_list') }}?status=approved"
+       style="display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;
+              background:#d1fae5;color:#065f46;font-weight:600;font-size:.85rem;text-decoration:none;
+              border:1px solid #a7f3d0;">
+      &#10003; Approved ({{ approved }})
+    </a>
+    <a href="{{ url_for('main.index') }}" target="_blank"
+       style="display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;
+              background:#e8f0fb;color:#1A5EA8;font-weight:600;font-size:.85rem;text-decoration:none;
+              border:1px solid #c3d5f5;">
+      &#127760; View Public Site
+    </a>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,7 @@
+flask>=3.0.0
+# Email uses Python stdlib smtplib — no extra packages needed.
+# Set these env vars to enable email:
+#   MAIL_USERNAME   your Gmail address
+#   MAIL_PASSWORD   your Gmail App Password (not your login password)
+#   MAIL_HOST       smtp.gmail.com (default)
+#   MAIL_PORT       587 (default)

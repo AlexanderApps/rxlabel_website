@@ -1,0 +1,131 @@
+/* ── NAV ────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 64px;
+  background: rgba(13,59,110,.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  /* BUGFIX: prevent nav from ever overflowing the viewport */
+  box-sizing: border-box;
+  max-width: 100vw;
+  overflow: hidden;
+}
+
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0; min-width: 0;
+}
+.nav-logo img { width: 36px; height: 36px; flex-shrink: 0; }
+.nav-logo-text {
+  font-family: var(--font-display);
+  font-size: 1.4rem; font-weight: 900;
+  white-space: nowrap;
+}
+.nav-logo-text .rx  { color: var(--orange); }
+.nav-logo-text .lbl { color: white; }
+
+.nav-links { display: flex; gap: 32px; }
+.nav-links a {
+  color: rgba(255,255,255,.7); text-decoration: none;
+  font-size: .88rem; font-weight: 500; transition: color .2s;
+  white-space: nowrap;
+}
+.nav-links a:hover { color: white; }
+
+.nav-cta {
+  background: var(--orange); color: white;
+  font-weight: 600; font-size: .85rem;
+  padding: 9px 22px; border-radius: 50px;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: background .2s, transform .15s;
+  white-space: nowrap; flex-shrink: 0;
+  font-family: var(--font-body);
+}
+.nav-cta:hover { background: #d96a10; transform: scale(1.03); }
+
+/* ── HAMBURGER ───────────────────────────────────────────── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 5px; width: 40px; height: 40px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px;
+  cursor: pointer; padding: 0; flex-shrink: 0;
+}
+.nav-hamburger span {
+  display: block; width: 18px; height: 2px;
+  background: white; border-radius: 2px;
+  transition: transform .3s ease, opacity .2s ease;
+  transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── MOBILE DRAWER ───────────────────────────────────────── */
+.nav-drawer {
+  position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+  background: rgba(8,22,50,.98);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  flex-direction: column;
+  padding: 6px 0 16px;
+  /* hidden by default – use visibility+opacity for smooth animation */
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity .22s ease, transform .22s ease, visibility 0s .22s;
+  pointer-events: none;
+  /* BUGFIX: constrain to screen width */
+  box-sizing: border-box;
+  max-width: 100vw;
+  overflow: hidden;
+}
+.nav-drawer.open {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .22s ease, transform .22s ease, visibility 0s 0s;
+  pointer-events: all;
+}
+
+.nav-drawer a {
+  color: rgba(255,255,255,.78); text-decoration: none;
+  font-size: .95rem; font-weight: 500;
+  padding: 15px 24px;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  transition: background .15s, color .15s;
+  display: flex; align-items: center; gap: 12px;
+  /* BUGFIX: no wrapping / overflow on small screens */
+  white-space: nowrap; overflow: hidden;
+}
+.nav-drawer a:last-of-type { border-bottom: none; }
+.nav-drawer a:active { background: rgba(255,255,255,.06); }
+
+.nav-drawer .drawer-cta {
+  margin: 12px 20px 0;
+  display: block; text-align: center;
+  background: var(--orange); color: white;
+  font-weight: 600; font-size: .92rem;
+  padding: 13px; border-radius: 50px;
+  border: none; cursor: pointer; font-family: var(--font-body);
+  transition: background .2s;
+  width: calc(100% - 40px);
+}
+.nav-drawer .drawer-cta:active { background: #d96a10; }
+
+/* ── RESPONSIVE ───────────────────────────────────────────── */
+@media (max-width: 960px) {
+  nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .nav-cta   { display: none; }
+  .nav-hamburger { display: flex; }
+}
+
+@media (max-width: 400px) {
+  .nav-logo-text { font-size: 1.2rem; }
+  .nav-logo img  { width: 30px; height: 30px; }
+}

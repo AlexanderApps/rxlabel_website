@@ -1,0 +1,66 @@
+<nav>
+  <a href="{{ url_for('main.index') }}" class="nav-logo">
+    <img src="{{ url_for('static', filename='img/icon.svg') }}" alt="RxLabel logo"/>
+    <div class="nav-logo-text"><span class="rx">Rx</span><span class="lbl">Label</span></div>
+  </a>
+
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#products">Products</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <button class="nav-cta" onclick="openModal()">Request License</button>
+
+  <!-- hamburger (mobile only) -->
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- mobile drawer -->
+<div class="nav-drawer" id="navDrawer" role="navigation">
+  <a href="#features" onclick="closeDrawer()">&#127991; Features</a>
+  <a href="#products" onclick="closeDrawer()">&#128421; Products</a>
+  <a href="#pricing"  onclick="closeDrawer()">&#128176; Pricing</a>
+  <a href="#contact"  onclick="closeDrawer()">&#9993; Contact</a>
+  <button class="drawer-cta" onclick="closeDrawer(); openModal()">Request License</button>
+</div>
+
+<script>
+(function () {
+  const btn    = document.getElementById('navHamburger');
+  const drawer = document.getElementById('navDrawer');
+
+  function openDrawer() {
+    btn.classList.add('open');
+    drawer.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  window.closeDrawer = function () {
+    btn.classList.remove('open');
+    drawer.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
+
+  btn.addEventListener('click', () => {
+    btn.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+
+  /* close on outside tap */
+  document.addEventListener('click', (e) => {
+    if (!btn.contains(e.target) && !drawer.contains(e.target)) closeDrawer();
+  });
+
+  /* close on ESC */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDrawer();
+  });
+})();
+</script>
