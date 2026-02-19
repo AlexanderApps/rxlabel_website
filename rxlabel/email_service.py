@@ -96,7 +96,7 @@ def send_license_request_notification(req: dict):
                 {req['license_type']}</span></td></tr>
         </table>
         <div style="margin-top:24px">
-          <a href="#" style="background:#F47C20;color:white;padding:11px 24px;
+          <a href="https://rxlabel.pythonanywhere.com/admin" style="background:#F47C20;color:white;padding:11px 24px;
             border-radius:50px;text-decoration:none;font-weight:600;font-size:.88rem">
             View in Admin Panel
           </a>
@@ -143,7 +143,7 @@ def send_request_confirmation(req: dict):
         </p>
       </div>
       <div style="padding:16px 32px;font-size:.78rem;color:#5a718a;text-align:center">
-        &copy; 2026 RxLabel &mdash; Labelling medication the 5R way.
+        &copy; 2026 RxLabel &mdash; Clarity in every dose.
       </div>
     </div>
     """
