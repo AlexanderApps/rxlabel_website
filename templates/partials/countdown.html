@@ -1,0 +1,318 @@
+<style>
+/* ── COUNTDOWN SECTION ───────────────────────────────────── */
+.countdown-strip {
+  background: linear-gradient(135deg, #0d3b6e 0%, #0f2a52 50%, #081828 100%);
+  padding: 56px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* animated background grain */
+.countdown-strip::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  opacity: .4;
+  pointer-events: none;
+}
+
+/* subtle radial glow */
+.countdown-strip::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(244,124,32,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.countdown-inner {
+  position: relative; z-index: 2;
+  max-width: 780px; margin: 0 auto;
+}
+
+.countdown-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: .72rem; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--orange);
+  margin-bottom: 14px;
+}
+.countdown-eyebrow::before,
+.countdown-eyebrow::after {
+  content: ''; display: block; width: 32px; height: 1px; background: var(--orange); opacity: .5;
+}
+
+.countdown-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 700; color: white; line-height: 1.25;
+  margin-bottom: 6px;
+}
+.countdown-heading .hl { color: var(--orange); }
+
+.countdown-sub {
+  font-size: .88rem; color: rgba(255,255,255,.4);
+  margin-bottom: 36px; letter-spacing: .02em;
+}
+
+/* ── DIGIT BLOCKS ───────────────────────────────────────── */
+.countdown-digits {
+  display: flex; align-items: flex-start;
+  justify-content: center; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.cd-unit {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+
+.cd-block {
+  position: relative; width: 88px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 12px; overflow: hidden;
+}
+
+/* flip-card effect */
+.cd-top, .cd-bottom {
+  display: block; width: 100%; height: 48px; line-height: 48px;
+  font-family: var(--font-display);
+  font-size: 2.6rem; font-weight: 900; color: white;
+  text-align: center; letter-spacing: -.02em;
+  position: relative;
+  background: rgba(255,255,255,.05);
+}
+.cd-top {
+  border-bottom: 1px solid rgba(0,0,0,.35);
+  border-radius: 12px 12px 0 0;
+}
+.cd-bottom {
+  border-radius: 0 0 12px 12px;
+}
+
+/* orange accent bar at fold */
+.cd-divider {
+  position: absolute; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  height: 2px; background: rgba(244,124,32,.5);
+  z-index: 3; pointer-events: none;
+}
+
+/* flip animation on digit change */
+@keyframes flipDown {
+  0%   { transform: rotateX(0deg); }
+  50%  { transform: rotateX(-90deg); }
+  100% { transform: rotateX(0deg); }
+}
+.cd-block.flip { animation: flipDown .4s ease; }
+
+.cd-label {
+  font-size: .65rem; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(255,255,255,.35);
+}
+
+/* separator dots */
+.cd-sep {
+  font-family: var(--font-display);
+  font-size: 2rem; font-weight: 900; color: rgba(244,124,32,.5);
+  line-height: 1; padding-top: 14px; user-select: none;
+}
+
+/* ── SAVINGS BADGE ──────────────────────────────────────── */
+.countdown-savings {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(244,124,32,.12); border: 1px solid rgba(244,124,32,.3);
+  border-radius: 50px; padding: 10px 22px; margin-bottom: 28px;
+  font-size: .85rem; color: #f9a85d; font-weight: 500;
+}
+.countdown-savings strong { color: var(--orange); font-size: 1rem; }
+
+/* ── CTA ────────────────────────────────────────────────── */
+.countdown-cta {
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; flex-wrap: wrap;
+}
+
+/* ── EXPIRED STATE ──────────────────────────────────────── */
+.countdown-expired {
+  display: none;
+  font-family: var(--font-display);
+  font-size: 1.4rem; color: rgba(255,255,255,.5);
+  font-weight: 700; letter-spacing: .05em;
+  padding: 24px 0;
+}
+
+/* ── PULSE on urgency (last 48h) ────────────────────────── */
+@keyframes urgencyPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244,124,32,.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(244,124,32,.0); }
+}
+.cd-block.urgent { animation: urgencyPulse 1.8s ease infinite; border-color: rgba(244,124,32,.4); }
+
+@media (max-width: 600px) {
+  .countdown-strip { padding: 40px 20px; }
+  .cd-block { width: 70px; }
+  .cd-top, .cd-bottom { font-size: 2rem; height: 40px; line-height: 40px; }
+  .cd-sep { font-size: 1.6rem; padding-top: 10px; }
+  .countdown-digits { gap: 8px; }
+  .countdown-eyebrow::before,
+  .countdown-eyebrow::after { width: 20px; }
+}
+
+@media (max-width: 380px) {
+  .cd-block { width: 58px; }
+  .cd-top, .cd-bottom { font-size: 1.6rem; }
+  .cd-sep { display: none; }
+}
+</style>
+
+<section class="countdown-strip" id="preorder">
+  <div class="countdown-inner">
+
+    <div class="countdown-eyebrow">Preorder Offer</div>
+
+    <h2 class="countdown-heading">
+      Save <span class="hl">GH&#8373; 300</span> — offer closes in
+    </h2>
+    <p class="countdown-sub" id="cdDeadlineLabel">—</p>
+
+    <div class="countdown-digits" id="cdDigits">
+      <div class="cd-unit">
+        <div class="cd-block" id="cdDays">
+          <span class="cd-top"  id="cdDaysTop">00</span>
+          <div class="cd-divider"></div>
+          <span class="cd-bottom" id="cdDaysBot">00</span>
+        </div>
+        <span class="cd-label">Days</span>
+      </div>
+
+      <div class="cd-sep">:</div>
+
+      <div class="cd-unit">
+        <div class="cd-block" id="cdHours">
+          <span class="cd-top"  id="cdHoursTop">00</span>
+          <div class="cd-divider"></div>
+          <span class="cd-bottom" id="cdHoursBot">00</span>
+        </div>
+        <span class="cd-label">Hours</span>
+      </div>
+
+      <div class="cd-sep">:</div>
+
+      <div class="cd-unit">
+        <div class="cd-block" id="cdMins">
+          <span class="cd-top"  id="cdMinsTop">00</span>
+          <div class="cd-divider"></div>
+          <span class="cd-bottom" id="cdMinsBot">00</span>
+        </div>
+        <span class="cd-label">Minutes</span>
+      </div>
+
+      <div class="cd-sep">:</div>
+
+      <div class="cd-unit">
+        <div class="cd-block" id="cdSecs">
+          <span class="cd-top"  id="cdSecsTop">00</span>
+          <div class="cd-divider"></div>
+          <span class="cd-bottom" id="cdSecsBot">00</span>
+        </div>
+        <span class="cd-label">Seconds</span>
+      </div>
+    </div>
+
+    <div class="countdown-savings">
+      Preorder price: <strong>GH&#8373; 2,500</strong>
+      &nbsp;·&nbsp;
+      Launch price: <strong style="color:rgba(255,255,255,.4);text-decoration:line-through;">GH&#8373; 2,800</strong>
+    </div>
+
+    <div class="countdown-cta">
+      <button class="btn-primary" onclick="openModal('Preorder – Starter Package')">
+        Secure My Preorder
+      </button>
+      <a href="#pricing" class="btn-outline">See What's Included</a>
+    </div>
+
+    <div class="countdown-expired" id="cdExpired">
+      Preorder period has ended. Standard pricing now applies.
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  /* ─────────────────────────────────────────────────────
+     CONFIGURE DEADLINE HERE
+     Format: new Date('YYYY-MM-DDTHH:MM:SS') in local time
+     or new Date(year, month-1, day, hour, min, sec)
+     ───────────────────────────────────────────────────── */
+  const DEADLINE = new Date('2026-03-31T23:59:59');
+  /* ───────────────────────────────────────────────────── */
+
+  const pad = n => String(Math.max(0, n)).padStart(2, '0');
+
+  // show formatted deadline
+  const opts = { year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('cdDeadlineLabel').textContent =
+    'Preorder closes ' + DEADLINE.toLocaleDateString(undefined, opts) + ' at midnight';
+
+  // element refs
+  const els = {
+    days:  { block: document.getElementById('cdDays'),  top: document.getElementById('cdDaysTop'),  bot: document.getElementById('cdDaysBot')  },
+    hours: { block: document.getElementById('cdHours'), top: document.getElementById('cdHoursTop'), bot: document.getElementById('cdHoursBot') },
+    mins:  { block: document.getElementById('cdMins'),  top: document.getElementById('cdMinsTop'),  bot: document.getElementById('cdMinsBot')  },
+    secs:  { block: document.getElementById('cdSecs'),  top: document.getElementById('cdSecsTop'),  bot: document.getElementById('cdSecsBot')  },
+  };
+  const expiredEl = document.getElementById('cdExpired');
+  const digitsEl  = document.getElementById('cdDigits');
+
+  let prev = { days: -1, hours: -1, mins: -1, secs: -1 };
+
+  function setUnit(key, val) {
+    const s = pad(val);
+    if (s === prev[key]) return;
+    const { block, top, bot } = els[key];
+    top.textContent = s;
+    bot.textContent = s;
+    // trigger flip
+    block.classList.remove('flip');
+    void block.offsetWidth; // reflow
+    block.classList.add('flip');
+    setTimeout(() => block.classList.remove('flip'), 420);
+    prev[key] = s;
+  }
+
+  function tick() {
+    const now  = new Date();
+    const diff = DEADLINE - now;
+
+    if (diff <= 0) {
+      digitsEl.style.display  = 'none';
+      expiredEl.style.display = 'block';
+      return;
+    }
+
+    const days  = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000)  / 60000);
+    const secs  = Math.floor((diff % 60000)    / 1000);
+
+    setUnit('days',  days);
+    setUnit('hours', hours);
+    setUnit('mins',  mins);
+    setUnit('secs',  secs);
+
+    // urgency pulse when under 48 hours
+    const urgent = diff < 48 * 3600 * 1000;
+    Object.values(els).forEach(({ block }) => {
+      block.classList.toggle('urgent', urgent);
+    });
+  }
+
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>

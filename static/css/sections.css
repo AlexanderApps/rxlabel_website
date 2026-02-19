@@ -190,24 +190,52 @@ section { padding: 96px 80px; }
   font-size: .9rem; font-weight: 500;
 }
 .contact-link.email { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); color: white; }
+.contact-link.email:hover { color: #ffffffb3; }
 .contact-link.phone { background: rgba(244,124,32,.12); border: 1px solid rgba(244,124,32,.25); color: #f9a85d; }
+.contact-link.phone:hover { color: #ae5705; }
 .contact-link.whatsapp { background: rgba(76, 231, 74, 0.12); border: 1px solid rgba(76, 231, 74, 0.25); color: #25D366; }
 .contact-link.whatsapp:hover { color: #128C7E; }
 /* ── FOOTER ───────────────────────────────────────────────── */
 footer {
-  background: #070f1e; color: rgba(255,255,255,.45);
-  padding: 40px 80px; display: flex; align-items: center;
-  justify-content: space-between; flex-wrap: wrap; gap: 20px;
+  background: #070f1e;
+  color: rgba(255,255,255,.45);
+  padding: clamp(28px, 6vw, 40px) clamp(20px, 6vw, 80px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
 }
+
 .footer-logo { display: flex; align-items: center; gap: 10px; }
 .footer-logo img { width: 32px; height: 32px; }
 .footer-logo-text { font-family: var(--font-display); font-size: 1.25rem; font-weight: 900; }
 .footer-logo-text .rx  { color: var(--orange); }
 .footer-logo-text .lbl { color: white; }
-.footer-right { text-align: right; font-size: .8rem; line-height: 2; }
+
+.footer-right {
+  text-align: right;
+  font-size: .8rem;
+  line-height: 2;
+}
 .footer-right a { color: rgba(255,255,255,.5); text-decoration: none; }
 .footer-right a:hover { color: white; }
 
+@media (max-width: 480px) {
+  footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .footer-right {
+    text-align: center;
+    width: 100%;
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding-top: 16px;
+  }
+}
 /* ── RESPONSIVE ───────────────────────────────────────────── */
 @media (max-width: 960px) {
   section { padding: 64px 24px; }

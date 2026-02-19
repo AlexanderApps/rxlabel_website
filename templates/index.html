@@ -17,12 +17,13 @@
 <section class="hero" id="home">
   <div class="hero-grid-bg"></div>
   <div class="hero-left">
-    <div class="hero-badge">Preorder Now Open · Save GHS 300</div>
+    <div class="hero-badge">Preorder Now Open · Save GH&#8373; 300</div>
+    <h4 class="hero-motto">Clarity in every dose.</h4>
     <h1>Labelling medication<br />the <span class="rx-text">5R</span> way,<br />every time.</h1>
     <p class="hero-sub">RxLabel brings accuracy, efficiency, and patient safety to every prescription label — built
       around the 5 Rights of Medication Safety.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="openModal('Preorder – Starter Package')">Preorder – GHS 2,500</button>
+      <button class="btn-primary" onclick="openModal('Preorder – Starter Package')">Preorder – GH&#8373; 2,500</button>
       <a href="#features" class="btn-outline">See Features</a>
     </div>
     <div class="hero-stats">
@@ -48,26 +49,27 @@
           <div class="dot r"></div>
           <div class="dot y"></div>
           <div class="dot g"></div>
-          <div class="carousel-title-bar">RxLabel &middot; Electron</div>
+          <div class="carousel-title-bar">RxLabel &middot; App</div>
         </div>
         <div class="carousel-slides" id="carousel">
           <div class="slide active" data-label="Labels">
-            <img src="{{ url_for('static', filename='img/Screenshot_2026-02-18_085327.png') }}" alt="Labels Grid" />
+            <img src="{{ url_for('static', filename='img/app_label_view.png') }}" alt="Labels Grid" />
           </div>
           <div class="slide" data-label="Queue">
-            <img src="{{ url_for('static', filename='img/Screenshot_2026-02-18_085443.png') }}" alt="Queue" />
+            <img src="{{ url_for('static', filename='img/app_queue_view.png') }}" alt="Queue" />
           </div>
           <div class="slide" data-label="Clients">
-            <img src="{{ url_for('static', filename='img/Screenshot_2026-02-18_085747.png') }}" alt="Clients" />
+            <img src="{{ url_for('static', filename='img/app_clients_view.png') }}" alt="Clients" />
           </div>
           <div class="slide" data-label="Client Detail">
-            <img src="{{ url_for('static', filename='img/Screenshot_2026-02-18_090119.png') }}" alt="Client Detail" />
+            <img src="{{ url_for('static', filename='img/app_client_details_view.png') }}" alt="Client Detail" />
           </div>
           <div class="slide" data-label="Dark Mode">
-            <div class="slide-placeholder">
+            <img src="{{ url_for('static', filename='img/app_dark_theme_view.png') }}" alt="Client Detail" />
+            <!-- <div class="slide-placeholder">
               <div style="font-size:2rem">&#127769;</div>
               <div>Dark theme &mdash; coming soon</div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="carousel-arrows">
@@ -91,9 +93,8 @@
     <div class="features-grid">
       <div class="feature-card">
         <div class="feature-icon">&#127991;</div>
-        <h3>Smart Label Generation</h3>
-        <p>Auto-generates clear, accurate medication instructions from dispensing data — reducing transcription errors
-          at source.</p>
+        <h3>Smart Labelling</h3>
+        <p>Generates clear, accurate medication instructions — reducing transcription errors.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">&#9203;</div>
@@ -104,12 +105,13 @@
       <div class="feature-card">
         <div class="feature-icon">&#128101;</div>
         <h3>Client Records</h3>
-        <p>Store patient details and full labelling history. Search instantly by name, ID, contact, or address.</p>
+        <p>Store client-specific label details for easy reprinting. Search instantly by name, ID, contact, or address.
+        </p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">&#9888;</div>
         <h3>Safety Warnings</h3>
-        <p>Automatic drug-specific warnings on every label — "Avoid alcohol", "Keep out of reach of children", and more.
+        <p>Add drug-specific warnings on every label — "Avoid alcohol", "Keep out of reach of children", and more.
         </p>
       </div>
       <div class="feature-card">
@@ -124,6 +126,26 @@
         <p>Custom multi-facility licensing for hospital networks and pharmacy chains. Centralized control, local
           operation.</p>
       </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">&#128274;</div>
+        <h3>Data Encryption</h3>
+        <p>All patient and prescription data is encrypted at rest — keeping sensitive records secure and
+          protected from unauthorized access.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">&#9729;</div>
+        <h3>Data Backup</h3>
+        <p>Automatic backups safeguard your records so you never lose critical data.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">&#128100;</div>
+        <h3>User Account Control</h3>
+        <p>Assign roles and permissions to each staff member. Control who can create, edit other users — keeping
+          your workflow accountable and secure.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -131,7 +153,7 @@
 <!-- ── 5R ─────────────────────────────────────────────── -->
 <div class="five-r">
   <h2>Built on the 5 Rights of Medication Safety</h2>
-  <p>Every label generated by RxLabel satisfies all five rights — protecting patients at every step.</p>
+  <p>RxLabel provides the necessary tools to satisfy all five rights—empowering providers to maintain the highest standards of patient safety throughout the care process.</p>
   <div class="five-r-pills">
     <div class="five-r-pill">
       <div class="r-num">R1</div>
@@ -165,12 +187,12 @@
     </div>
     <div class="product-block">
       <div class="product-img-wrap dark">
-        <img src="{{ url_for('static', filename='img/Screenshot_20260218_080455_Alibabacom.jpg') }}"
-          alt="DP27S Printer" />
+        <img src="{{ url_for('static', filename='img/printer_black.jpg') }}"
+          alt="Thermal Label Printer" />
       </div>
       <div class="product-info">
         <div class="section-eyebrow">Label Printer</div>
-        <h2>DP27S Thermal Label Printer</h2>
+        <h2>Thermal Label Printer</h2>
         <p class="tagline">Compact, wireless, built for high-volume pharmacy dispensing. Crystal-clear 300dpi prints
           every time — no ink, no fuss.</p>
         <ul class="spec-list">
@@ -178,14 +200,14 @@
               DPI</span></li>
           <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Connectivity:</span> Bluetooth +
               USB</span></li>
-          <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Display:</span> Built-in OLED status
-              screen</span></li>
+          <!-- <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Display:</span> Built-in OLED status
+              screen</span></li> -->
           <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Technology:</span> Direct thermal —
               no ink cartridges</span></li>
           <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Compatible:</span> Plug-and-play
               with RxLabel</span></li>
         </ul>
-        <div class="price-tag-inline"><span class="amt">GHS 1,600</span><span class="unit">extra unit &middot; included
+        <div class="price-tag-inline"><span class="amt">GH&#8373; 1,600</span><span class="unit">extra unit &middot; included
             in Starter Pack</span></div>
       </div>
     </div>
@@ -210,13 +232,17 @@
           <li><span class="spec-icon">&#10003;</span><span><span class="spec-label">Min. Order:</span> 5-roll pack (600
               labels)</span></li>
         </ul>
-        <div class="price-tag-inline"><span class="amt">GHS 400</span><span class="unit">per 5-roll pack &middot; GHS
+        <div class="price-tag-inline"><span class="amt">GH&#8373; 400</span><span class="unit">per 5-roll pack &middot; GH&#8373;
             80/roll</span></div>
       </div>
     </div>
   </div>
 </section>
 
+
+<div>
+  {% include "partials/countdown.html" %}
+</div>
 <!-- ── PRICING ────────────────────────────────────────── -->
 <section class="pricing-teaser" id="pricing">
   <div class="section-eyebrow">Pricing</div>
@@ -226,20 +252,20 @@
     <div class="p-card">
       <div class="p-card-label">Preorder</div>
       <div class="p-card-name">Starter Package</div>
-      <div class="p-card-price">GHS 2,500</div>
-      <div class="p-card-unit">Save GHS 300 vs launch price</div>
+      <div class="p-card-price">GH&#8373; 2,500</div>
+      <div class="p-card-unit">Save GH&#8373; 300 vs launch price</div>
       <div class="p-card-divider"></div>
-      <div class="p-card-items">&#10003; RxLabel Application<br />&#10003; Label Printer (DP27S)<br />&#10003; 5 &times;
+      <div class="p-card-items">&#10003; RxLabel Application<br />&#10003; Thremal Label Printer<br />&#10003; 5 &times;
         120-label rolls<br />&#10003; Unlimited machines</div>
       <button class="p-card-cta" onclick="openModal('Preorder – Starter Package')">Request License</button>
     </div>
     <div class="p-card featured">
       <div class="p-card-label">Launch Price</div>
       <div class="p-card-name">Starter Package</div>
-      <div class="p-card-price">GHS 2,800</div>
+      <div class="p-card-price">GH&#8373; 2,800</div>
       <div class="p-card-unit">Standard pricing at launch</div>
       <div class="p-card-divider"></div>
-      <div class="p-card-items">&#10003; RxLabel Application<br />&#10003; Label Printer (DP27S)<br />&#10003; 5 &times;
+      <div class="p-card-items">&#10003; RxLabel Application<br />&#10003; Thremal Label Printer<br />&#10003; 5 &times;
         120-label rolls<br />&#10003; Unlimited machines</div>
       <button class="p-card-cta" onclick="openModal('Standard – Starter Package')">Request License</button>
     </div>
