@@ -145,3 +145,40 @@
   .hero-right { height: auto; padding: 0 16px 40px; }
   .carousel-slides { height: 300px; }
 }
+
+
+/* ── SWIPE HINT (mobile only) ────────────────────────────── */
+@keyframes swipeHint {
+  0%   { opacity: 0; transform: translateX(0); }
+  20%  { opacity: 1; }
+  50%  { transform: translateX(-10px); }
+  80%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(0); }
+}
+
+.carousel-swipe-hint {
+  display: none;
+  position: absolute;
+  bottom: 12px; left: 50%; transform: translateX(-50%);
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 50px;
+  padding: 5px 14px;
+  font-size: .68rem; font-weight: 600; letter-spacing: .08em;
+  color: rgba(255,255,255,.45);
+  pointer-events: none;
+  gap: 6px; align-items: center;
+  white-space: nowrap;
+  /* plays once on load, fades out */
+  animation: swipeHint 2.4s ease 1.2s both;
+}
+.carousel-swipe-hint::before { content: '←'; }
+.carousel-swipe-hint::after  { content: '→'; }
+
+@media (hover: none) and (pointer: coarse) {
+  /* only show on actual touch devices */
+  .carousel-swipe-hint { display: flex; }
+  /* widen the touch target area slightly */
+  .carousel-slides { cursor: grab; }
+  .carousel-slides:active { cursor: grabbing; }
+}
